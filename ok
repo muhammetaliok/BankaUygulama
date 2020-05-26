@@ -1,0 +1,132 @@
+from tkinter import *
+from tkinter import messagebox
+import sqlite3
+
+
+
+pen = Tk()
+def ekle():
+    listBox1.insert(END, OgrNo.get() + ' ' +  Ad.get() + ' ' + Soyad.get())
+    baglanti.execute("INSERT INTO Ogrenciler VALUES(?,?,?)",[OgrNo.get(), Ad.get(), Soyad.get()])
+    baglanti.commit()
+
+def sil():
+    if messagebox.askyesno("UYARI", "SEÇİLİ KAYITLARI SİLMEK İSTEDİĞİNİZDEN EMİN MİSİNİZ?"):
+        for i in range(listBox1.size(),0,-1):
+            if listBox1.select_includes(i):
+                baglanti.execute("DELETE FROM Ogrenciler WHERE OgrNo=? AND Ad=? AND Soyad=?",
+                                 listBox1.get(i).split(' '))
+                listBox1.delete(i)
+
+
+lbl0 = Label(pen, text="ÖĞRENCİ BİLGİSİ", font = "calibri")
+lbl0.grid(row=0, column=1)
+
+lbl1 = Label(pen, text="Öğr No : ", font = "calibri")
+lbl1.grid(row=1, column=0)
+
+lbl2 = Label(pen, text="Adı : ", font = "calibri")
+lbl2.grid(row=2, column=0)
+
+lbl3 = Label(pen, text="Soyadı : ", font = "calibri")
+lbl3.grid(row=3, column=0)
+
+OgrNo = Entry(pen, font="calibri")
+OgrNo.grid(row=1, column=1)
+
+Ad = Entry(pen, font="calibri")
+Ad.grid(row=2, column=1)
+
+Soyad = Entry(pen, font="calibri")
+Soyad.grid(row=3, column=1)
+
+cmdekle = Button(pen, font="calibri", text="ekle", command=ekle)
+cmdekle.grid(row=4, column=1)
+
+cmdsil = Button(pen, font="calibri", text="seçili olanları sil",command=sil)
+cmdsil.grid(row=6, column=1)
+
+listBox1 = Listbox(pen, font="calibri", selectmode="extended")
+listBox1.grid(row=5, column=1)
+
+def ekle1():
+    listBox2.insert(END, DersKodu.get( ) + ' ' + DersAdı.get( ))
+    baglanti.execute("INSERT INTO Dersler VALUES(?,?)",
+                      [DersKodu.get( ), DersAdı.get( )])
+    baglanti.commit()
+
+def sil1():
+    if messagebox.askyesno("UYARI", "SEÇİLİ KAYITLARI SİLMEK İSTEDİĞİNİZDEN EMİN MİSİNİZ?"):
+        for i in range(listBox2.size(),0,-1):
+            if listBox2.select_includes(i):
+                 baglanti.execute("DELETE FROM Dersler WHERE DersKodu=? AND DersAdı=?" )
+                 listBox2.get(i).split(' ')
+                 baglanti.commit()
+                 listBox2.delete(i)
+
+lbl4 = Label(pen, text="DERSLER", font = "calibri")
+lbl4.grid(row=0, column=3)
+
+lbl5 = Label(pen, text="Ders Kodu : ", font = "calibri")
+lbl5.grid(row=1, column=2)
+
+lbl6 = Label(pen, text="Ders Adı : ", font = "calibri")
+lbl6.grid(row=2, column=2)
+
+DersKodu = Entry(pen, font="calibri")
+DersKodu.grid(row=1, column=3)
+
+DersAdı = Entry(pen, font="calibri")
+DersAdı.grid(row=2, column=3)
+
+cmdekle = Button(pen, font="calibri", text="ekle", command=ekle1)
+cmdekle.grid(row=4, column=3)
+
+cmdsil = Button(pen, font="calibri", text="seçili olanları sil",command=sil1)
+cmdsil.grid(row=6, column=3)
+
+listBox2 = Listbox(pen, font="calibri", selectmode="extended")
+listBox2.grid(row=5, column=3)
+
+def ekle2():
+    listBox3.insert(END, OgrNo.get() + ' ' + DersAdı + ' ' + Vize.get() + ' ' + Final.get())
+    baglanti.execute("INSERT INTO Notlar VALUES(?,?)",
+                     [Vize.get(), Final.get()])
+    baglanti.commit()
+
+def sil2():
+    if messagebox.askyesno("UYARI", "SEÇİLİ KAYITLARI SİLMEK İSTEDİĞİNİZDEN EMİN MİSİNİZ?"):
+        for i in range(listBox3.size(),0,-1):
+            if listBox3.select_includes(i):
+                 baglanti.execute("DELETE FROM Notlar WHERE OgrNo=? AND DersAdı=? Vize=? AND Final=?",
+                 listBox3.get(i).split(' '))
+                 baglanti.commit( )
+                 listBox3.delete(i)
+
+
+lbl7 = Label(pen, text="NOTLAR ", font = "calibri")
+lbl7.grid(row=0, column=5)
+
+lbl8 = Label(pen, text="Vize Notu : ", font = "calibri")
+lbl8.grid(row=1, column=4)
+
+lbl9 = Label(pen, text="Final Notu : ", font = "calibri")
+lbl9.grid(row=2, column=4)
+
+Vize = Entry(pen, font="calibri")
+Vize.grid(row=1, column=5)
+
+Final = Entry(pen, font="calibri")
+Final.grid(row=2, column=5)
+
+cmdekle = Button(pen, font="calibri", text="ekle", command=ekle2)
+cmdekle.grid(row=4, column=5)
+
+cmdsil = Button(pen, font="calibri", text="seçili olanları sil",command=sil2)
+cmdsil.grid(row=6, column=5)
+
+listBox3 = Listbox(pen, font="calibri", selectmode="extended")
+listBox3.grid(row=5, column=5)
+
+baglanti = sqlite3.connect("data.db")
+pen.mainloop()
