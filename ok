@@ -16,6 +16,7 @@ def sil():
             if listBox1.select_includes(i):
                 baglanti.execute("DELETE FROM Ogrenciler WHERE OgrNo=? AND Ad=? AND Soyad=?",
                                  listBox1.get(i).split(' '))
+                baglanti.commit()
                 listBox1.delete(i)
 
 
@@ -59,8 +60,8 @@ def sil1():
     if messagebox.askyesno("UYARI", "SEÇİLİ KAYITLARI SİLMEK İSTEDİĞİNİZDEN EMİN MİSİNİZ?"):
         for i in range(listBox2.size(),0,-1):
             if listBox2.select_includes(i):
-                 baglanti.execute("DELETE FROM Dersler WHERE DersKodu=? AND DersAdı=?" )
-                 listBox2.get(i).split(' ')
+                 baglanti.execute("DELETE FROM Dersler WHERE DersKodu=? AND DersAdı=?",
+                 listBox2.get(i).split(' '))
                  baglanti.commit()
                  listBox2.delete(i)
 
@@ -129,4 +130,12 @@ listBox3 = Listbox(pen, font="calibri", selectmode="extended")
 listBox3.grid(row=5, column=5)
 
 baglanti = sqlite3.connect("data.db")
+
+for kayıt in baglanti.execute("SELECT * FROM Ogrenciler"):
+    listBox1.insert(END, kayıt[0] + ' ' + kayıt[1] + ' ' + kayıt[2])
+for kayıt in baglanti.execute("SELECT * FROM Dersler"):
+    listBox2.insert(END, kayıt[0] + ' ' + kayıt[1])
+for kayıt in baglanti.execute("SELECT * FROM Notlar"):
+    listBox3.insert(END, kayıt[0] + ' ' + kayıt[1] + ' ' + kayıt[2] + ' ' + kayıt[3])
+
 pen.mainloop()
