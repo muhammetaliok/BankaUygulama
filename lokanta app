@@ -1,0 +1,72 @@
+from typing import Tuple
+
+masalar = dict()
+for i in range(10):
+    masalar[i] = 0
+
+def hesapEkle():
+    masaNo = int(input("Masa no giriniz: "))
+    gecerli = masalar[masaNo]
+    eklenecek = float(input("Eklenecek tutar: "))
+    toplam = gecerli + eklenecek
+    masalar[masaNo] = toplam
+
+def hesapSil():
+    masaNo = int(input("Masa no giriniz: "))
+    gecerli = masalar[masaNo]
+    silenecek = float(input("Silenecek tutar: "))
+    toplam = gecerli - silenecek
+    masalar[masaNo] = toplam
+
+def hesapKontrol(dosya_adi):
+    try:
+        dosya = open(dosya_adi)
+        veriler = dosya.read()
+        veriler = veriler.split("\n")
+        dosya.close()
+        flag = True
+    except FileNotFoundError:
+        dosya = open(dosya_adi,"w")
+        dosya.close()
+        print("ilk kez kayıt dosyası oluşturuldu.")
+        flag = False
+
+    if flag:
+        for i in enumerate(veriler):
+            masalar[i[0]] = float(i[0])
+
+    else:
+        pass
+
+
+
+def main():
+    hesapKontrol("kayıtlar.txt")
+    while True:
+        print("""
+        [1] Hesapları Görüntüle
+        [2] Hesap Ekle
+        [3] Hesap Sil
+        [4] Çıkış
+        """)
+        secim = input("Seçiminiz: ")
+
+        if secim == "1":
+            for i in range(10):
+                print("Masa {} için hesap: {}".format(i,masalar[i]))
+            print("İşleminiz tamamlandı, ana menüye dönmek için enter tuşuna basınız.")
+            input()
+
+        elif secim == "2":
+            hesapEkle()
+            print("İşleminiz tamamlandı, ana menüye dönmek için enter tuşuna basınız.")
+            input()
+
+        elif secim == "3":
+            hesapSil()
+            print("İşleminiz tamamlandı, ana menüye dönmek için enter tuşuna basınız.")
+            input()
+        elif secim == "q" or secim == "Q":
+            print("çıkınız gerçekleşiyor...")
+
+main()
