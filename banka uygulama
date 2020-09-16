@@ -1,3 +1,4 @@
+import os
 class Musteri():
     def __init__(self,ID,PAROLA,ISIM):
         self.id = ID
@@ -13,9 +14,10 @@ class Banka():
         self.musteriler.append(Musteri(ID,PAROLA,ISIM))
         print("Bankamıza kayıt yaptırdığınız için teşekkür ederiz. ")
 
-def main():
+
     banka = Banka()
     while True:
+    os.system('cls')
         print("""
         [1] Banka müşterisiyim
         [2] Banka müşterisi değilim
@@ -32,70 +34,71 @@ def main():
                         if parola == musteri.parola:
                             print("Giriş Başarılı!")
                             while True:
+                            os.system('cls')
                                 print("""
-                            [1] Bakiye Sorgula
-                            [2] Para Yatır(Kendi hesabına)
-                            [3] Para Yatır ("Başka hesaba)
-                            [4] Para Çek
-                            [5] Çıkış
-                            """)
-                            secim2 = input("Seçiminiz: ")
-                            if secim2 == "1":
-                                print("Bakiyeniz: {}".format(musteri.bakiye))
-                                input("Ana menüye dönmek için 'enter' tuşuna basınız")
-                            elif secim2 == "2":
-                                miktar = int(input("Miktar: "))
-                                onay = input("Kendi hesabınıza {} TL para yatırma işlemini onaylıyor musunuz?: E/H".format(miktar))
-                                if onay == "e" or onay == "E":
-                                    musteri.bakiye += miktar
-                                    print("Paranız yatırıldı!")
+                                [1] Bakiye Sorgula
+                                [2] Para Yatır(Kendi hesabına)
+                                [3] Para Yatır ("Başka hesaba)
+                                [4] Para Çek
+                                [5] Çıkış
+                                """)
+                                secim2 = input("Seçiminiz: ")
+                                if secim2 == "1":
+                                    print("Bakiyeniz: {}".format(musteri.bakiye))
                                     input("Ana menüye dönmek için 'enter' tuşuna basınız")
-                                elif onay == "h" or onay == "H":
-                                    print("İşlem iptal edildi")
-                                    input("Ana menüye dönmek için 'enter' tuşuna basınız")
-                                else:
-                                    print("Hatalı seçim yaptınız! ")
-                                    input("Ana menüye dönmek için 'enter' tuşuna basınız")
-                            elif secim2 == "3":
-                                arananID = input("Müşteri ID: ")
-                                if arananID in ids:
-                                    for digerMusteri in banka.musteriler:
-                                        if arananID == digerMusteri.id:
-                                            miktar = int(input("Miktar: "))
-                                            if miktar <= musteri.bakiye:
-                                                onay = input("{} adlı müşteriye {} para yatırma işlemini onaylıyor musunuz?:  E/H ".format(digerMusteri.isim,miktar))
-                                                if onay == "E" or onay =="e":
-                                                    digerMusteri.bakiye += miktar
-                                                    musteri.bakiye -= miktar
-                                                    print("Para aktarıldı!")
+                                elif secim2 == "2":
+                                    miktar = int(input("Miktar: "))
+                                    onay = input("Kendi hesabınıza {} TL para yatırma işlemini onaylıyor musunuz?: E/H".format(miktar))
+                                    if onay == "e" or onay == "E":
+                                        musteri.bakiye += miktar
+                                        print("Paranız yatırıldı!")
+                                        input("Ana menüye dönmek için 'enter' tuşuna basınız")
+                                    elif onay == "h" or onay == "H":
+                                        print("İşlem iptal edildi")
+                                        input("Ana menüye dönmek için 'enter' tuşuna basınız")
+                                    else:
+                                        print("Hatalı seçim yaptınız! ")
+                                        input("Ana menüye dönmek için 'enter' tuşuna basınız")
+                                elif secim2 == "3":
+                                    arananID = input("Müşteri ID: ")
+                                    if arananID in ids:
+                                        for digerMusteri in banka.musteriler:
+                                            if arananID == digerMusteri.id:
+                                                miktar = int(input("Miktar: "))
+                                                if miktar <= musteri.bakiye:
+                                                    onay = input("{} adlı müşteriye {} para yatırma işlemini onaylıyor musunuz?:  E/H ".format(digerMusteri.isim,miktar))
+                                                    if onay == "E" or onay =="e":
+                                                        digerMusteri.bakiye += miktar
+                                                        musteri.bakiye -= miktar
+                                                        print("Para aktarıldı!")
+                                                        input("Ana menüye dönmek için 'enter' tuşuna basınız")
+
+                                                    elif onay == "h" or onay == "H":
+                                                        print("İşleminiz iptal edildi")
+                                                        input("Ana menüye dönmek için 'enter' tuşuna basınız")
+                                                    else :
+                                                        print("Hatala giriş yaptınız!")
+                                                else:
+                                                    print("Yetersiz bakiye")
                                                     input("Ana menüye dönmek için 'enter' tuşuna basınız")
+                                    else:
+                                        print("Müşteri Bulunamadı!")
+                                        input("Ana menüye dönmek için 'enter' tuşuna basınız")
 
-                                                elif onay == "h" or onay == "H":
-                                                    print("İşleminiz iptal edildi")
-                                                    input("Ana menüye dönmek için 'enter' tuşuna basınız")
-                                                else :
-                                                    print("Hatala giriş yaptınız!")
-                                            else:
-                                                print("Yetersiz bakiye")
-                                                input("Ana menüye dönmek için 'enter' tuşuna basınız")
-                                else:
-                                    print("Müşteri Bulunamadı!")
-                                    input("Ana menüye dönmek için 'enter' tuşuna basınız")
+                                elif secim2 == "4":
+                                    miktar = int(input("Miktar: "))
 
-                            elif secim2 == "4":
-                                miktar = int(input("Miktar: "))
+                                    if miktar <= musteri.bakiye:
+                                        musteri.bakiye -= miktar
+                                        print("Para çekme işleminiz başarıyla gerçekleşti!")
+                                        input("Ana menüye dönmek için 'enter' tuşuna basınız")
 
-                                if miktar <= musteri.bakiye:
-                                    musteri.bakiye -= miktar
-                                    print("Para çekme işleminiz başarıyla gerçekleşti!")
-                                    input("Ana menüye dönmek için 'enter' tuşuna basınız")
+                                    else:
+                                        print("Bakiye yetersiz")
+                                        input("Ana menüye dönmek için 'enter' tuşuna basınız")
 
-                                else:
-                                    print("Bakiye yetersiz")
-                                    input("Ana menüye dönmek için 'enter' tuşuna basınız")
-
-                            elif secim2 == "5":
-                                break
+                                elif secim2 == "5":
+                                    quit()
 
 
         elif secim == "2":
