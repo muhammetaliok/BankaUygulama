@@ -6,8 +6,8 @@ import sqlite3
 
 pen = Tk()
 def ekle():
-    listBox1.insert(END, OgrNo.get() + ' ' +  Ad.get() + ' ' + Soyad.get())
-    baglanti.execute("INSERT INTO Ogrenciler VALUES(?,?,?)",[OgrNo.get(), Ad.get(), Soyad.get()])
+    listBox1.insert(END, str(OgrNo.get())+ ' ' +  str(Ad.get()) + ' ' + str(Soyad.get()))
+    baglanti.execute("INSERT INTO Ogrenciler VALUES(?,?,?)",[str(OgrNo.get()), str(Ad.get()), str(Soyad.get())])
     baglanti.commit()
 
 def sil():
@@ -89,7 +89,7 @@ listBox2 = Listbox(pen, font="calibri", selectmode="extended")
 listBox2.grid(row=5, column=3)
 
 def ekle2():
-    listBox3.insert(END, OgrNo.get() + ' ' + DersAdı + ' ' + Vize.get() + ' ' + Final.get())
+    listBox3.insert(END, OgrNo.get(ACTIVE) + ' ' + DersAdı.get(ACTIVE)+ ' ' + str(Vize.get()) + ' ' + str(Final.get()))
     baglanti.execute("INSERT INTO Notlar VALUES(?,?)",
                      [Vize.get(), Final.get()])
     baglanti.commit()
