@@ -16,6 +16,7 @@ def sil():
             if listBox1.select_includes(i):
                 baglanti.execute("DELETE FROM Ogrenciler WHERE OgrNo=? AND Ad=? AND Soyad=?",
                                  listBox1.get(i).split(' '))
+                baglanti.commit()
                 listBox1.delete(i)
 
 
@@ -46,7 +47,7 @@ cmdekle.grid(row=4, column=1)
 cmdsil = Button(pen, font="calibri", text="seçili olanları sil",command=sil)
 cmdsil.grid(row=6, column=1)
 
-listBox1 = Listbox(pen, font="calibri", selectmode="extended")
+listBox1 = Listbox(pen, font="calibri", selectmode="extended", exportselection=0)
 listBox1.grid(row=5, column=1)
 
 def ekle1():
@@ -59,8 +60,8 @@ def sil1():
     if messagebox.askyesno("UYARI", "SEÇİLİ KAYITLARI SİLMEK İSTEDİĞİNİZDEN EMİN MİSİNİZ?"):
         for i in range(listBox2.size(),0,-1):
             if listBox2.select_includes(i):
-                 baglanti.execute("DELETE FROM Dersler WHERE DersKodu=? AND DersAdı=?" )
-                 listBox2.get(i).split(' ')
+                 baglanti.execute("DELETE FROM Dersler WHERE DersKodu=? AND DersAdı=?",
+                 listBox2.get(i).split(' '))
                  baglanti.commit()
                  listBox2.delete(i)
 
@@ -85,23 +86,23 @@ cmdekle.grid(row=4, column=3)
 cmdsil = Button(pen, font="calibri", text="seçili olanları sil",command=sil1)
 cmdsil.grid(row=6, column=3)
 
-listBox2 = Listbox(pen, font="calibri", selectmode="extended")
+listBox2 = Listbox(pen, font="calibri", selectmode="extended", exportselection=0)
 listBox2.grid(row=5, column=3)
 
 def ekle2():
-    listBox3.insert(END, OgrNo.get() + ' ' + DersAdı + ' ' + Vize.get() + ' ' + Final.get())
-    baglanti.execute("INSERT INTO Notlar VALUES(?,?)",
-                     [Vize.get(), Final.get()])
+    listBox3.insert(END, listBox1.get(ACTIVE).split(' ')[0] + ' ' + listBox2.get(ACTIVE).split(' ')[0] + ' ' + Vize.get() + ' ' + Final.get())
+    baglanti.execute("INSERT INTO Notlar VALUES(?,?,?,?)",
+                     [listBox1.get(ACTIVE).split(' ')[0] ,listBox2.get(ACTIVE).split(' ')[0] ,Vize.get(), Final.get()])
     baglanti.commit()
 
 def sil2():
     if messagebox.askyesno("UYARI", "SEÇİLİ KAYITLARI SİLMEK İSTEDİĞİNİZDEN EMİN MİSİNİZ?"):
         for i in range(listBox3.size(),0,-1):
             if listBox3.select_includes(i):
-                 baglanti.execute("DELETE FROM Notlar WHERE OgrNo=? AND DersAdı=? Vize=? AND Final=?",
-                 listBox3.get(i).split(' '))
-                 baglanti.commit( )
-                 listBox3.delete(i)
+                baglanti.execute("DELETE FROM Notlar WHERE OgrNo=? AND DersKodu=? AND Vize=? AND Final=?",
+                                 listBox3.get(i).split(' '))
+                baglanti.commit()
+                listBox3.delete(i)
 
 
 lbl7 = Label(pen, text="NOTLAR ", font = "calibri")
@@ -129,4 +130,12 @@ listBox3 = Listbox(pen, font="calibri", selectmode="extended")
 listBox3.grid(row=5, column=5)
 
 baglanti = sqlite3.connect("data.db")
+
+for kayıt in baglanti.execute("SELECT * FROM Ogrenciler"):
+    listBox1.insert(END, kayıt[0] + ' ' + kayıt[1] + ' ' + kayıt[2])
+for kayıt in baglanti.execute("SELECT * FROM Dersler"):
+    listBox2.insert(END, kayıt[0] + ' ' + kayıt[1])
+for kayıt in baglanti.execute("SELECT * FROM Notlar"):
+    listBox3.insert(END, kayıt[0] + ' ' + kayıt[1] + ' ' + kayıt[2] + ' ' + kayıt[3])
+
 pen.mainloop()
