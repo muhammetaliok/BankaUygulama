@@ -1,0 +1,35 @@
+meyve = input("Hangi meyveden istiyorsun evladım ?: ")
+
+if meyve == ("muz"):
+    kilo = int(input("Kaç kilo istiyorsun ?: "))
+    print(kilo*5,"tl ücret ödeyeceksin.")
+
+elif meyve == ("elma"):
+    renk=input("Hangi renk elma istiyorsun?: ")
+
+    if renk == ("kırmızı"):
+       kilo = int(input("Kaç kilo istiyorsun?: "))
+
+    elif renk == ("sarı"):
+       kilo = int(input("Kaç kilo istiyorsun?: "))
+
+    elif renk == ("yeşil"):
+       kilo = int(input("Kaç kilo istiyorsun?: "))
+       print(kilo * 2,"tl ödeyeceksin.")
+else:
+    print("elimde sadece kırmızı, sarı ve yeşil renk elma var.")
+
+
+
+
+if meyve == ("üzüm"):
+    renk = input("Hangi renk üzüm istersin? :")
+    if renk == ("mor"):
+     kilo = int(input("Kaç kilo mor üzüm istiyorsun? :"))
+     print(kilo*3,"tl ücret ödeyeceksiniz.")
+    if renk == ("yeşil"):
+     kilo = float(input("Kaç kilo yeşil üzüm istiyorsunu? :"))
+     print(kilo*3.5,"tl ücret ödeyeceksin")
+
+else:
+    print("Sadece elimde mor ve yeşil renk üzüm var...")
